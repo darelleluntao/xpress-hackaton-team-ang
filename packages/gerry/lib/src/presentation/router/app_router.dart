@@ -7,6 +7,7 @@ import '../screens/login_screen.dart';
 import '../screens/phone_login_screen.dart';
 import '../screens/otp_screen.dart';
 import '../screens/home_screen.dart';
+import '../screens/fleet_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(userNotifierProvider);
@@ -82,6 +83,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/profile',
         builder: (context, state) =>
             const HomeScreen(), // Uses the same HomeScreen with different tab
+      ),
+      GoRoute(
+        path: '/fleet',
+        builder: (context, state) => const FleetScreen(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(

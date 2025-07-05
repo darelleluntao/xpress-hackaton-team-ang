@@ -22,6 +22,7 @@ export 'src/services/api_server.dart';
 export 'src/config/supabase_config.dart';
 export 'src/presentation/theme/app_theme.dart';
 export 'src/presentation/theme/design_tokens.dart';
+export 'src/constants/app_colors.dart';
 export 'src/presentation/widgets/flexible_app_bar.dart';
 export 'src/presentation/widgets/flexible_bottom_nav_bar.dart';
 export 'src/presentation/widgets/app_scaffold.dart';

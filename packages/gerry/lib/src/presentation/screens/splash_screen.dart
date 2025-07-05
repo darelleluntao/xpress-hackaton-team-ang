@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'phone_login_screen.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -53,27 +54,28 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 width: 120,
                 height: 120,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  // color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withAlpha(26),
+                      blurRadius: 20,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
                 ),
-                child: const Icon(
-                  Icons.flutter_dash,
-                  size: 80,
-                  color: Colors.blue,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: SvgPicture.asset(
+                    'packages/core/assets/icons/xpress_logo.svg',
+                    width: 120,
+                    height: 120,
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
               const SizedBox(height: 24),
               // App Name
-              Text(
-                'Gerry',
-                style: GoogleFonts.poppins(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Loading indicator
               const CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
               ),

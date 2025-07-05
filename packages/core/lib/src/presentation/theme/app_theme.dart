@@ -94,10 +94,10 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xFF6C63FF), // Grab Purple
-        primary: const Color(0xFF6C63FF),
-        secondary: const Color(0xFF8B7FFF),
-        tertiary: const Color(0xFFA99FFF),
+        seedColor: const Color.fromARGB(255, 22, 61, 176), // Grab Purple
+        primary: const Color.fromARGB(255, 2, 34, 103),
+        secondary: const Color.fromARGB(255, 195, 34, 34),
+        tertiary: const Color.fromARGB(255, 166, 175, 223),
         surface: Colors.white,
         error: const Color(0xFFE63946),
       ),

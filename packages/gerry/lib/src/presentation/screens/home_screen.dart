@@ -1,9 +1,11 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'maps_screen.dart';
+import 'fleet_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -29,6 +31,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       route: '/orders',
     ),
     NavItem(
+      label: 'Fleet',
+      icon: Icons.local_shipping_outlined,
+      activeIcon: Icons.local_shipping,
+      route: '/fleet',
+    ),
+    NavItem(
       label: 'Discover',
       icon: Icons.lightbulb_outline,
       activeIcon: Icons.lightbulb,
@@ -42,11 +50,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     ),
   ];
 
-  final List<Widget> _screens = const [
-    _HomeContent(),
-    _OrdersContent(),
-    _DiscoverContent(),
-    _ProfileContent(),
+  final List<Widget> _screens = [
+    const _HomeContent(),
+    const _OrdersContent(),
+    const FleetScreen(),
+    const _DiscoverContent(),
+    const _ProfileContent(),
   ];
 
   void _onNavTap(int index) {
@@ -61,7 +70,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: FlexibleAppBar(
-        title: 'Rider App',
+        // title: 'Rider App',
+        titleWidget: SvgPicture.asset(
+          'packages/core/assets/icons/xpress_logo.svg',
+          width: 30,
+          height: 30,
+          fit: BoxFit.contain,
+        ),
         style: AppBarStyle.primary,
         actions: [
           IconButton(
@@ -99,8 +114,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 }
 
-class _HomeContent extends StatelessWidget {
+class _HomeContent extends StatefulWidget {
   const _HomeContent();
+
+  @override
+  State<_HomeContent> createState() => _HomeContentState();
+}
+
+class _HomeContentState extends State<_HomeContent> {
+  bool _isOnline = true;
 
   @override
   Widget build(BuildContext context) {
@@ -114,21 +136,18 @@ class _HomeContent extends StatelessWidget {
           // Welcome Section
           _buildWelcomeSection(context),
           const SizedBox(height: 24),
-          
-          // Driver KPIs Section
-          _buildKPISection(context),
-          const SizedBox(height: 24),
-          
+
           // Earnings Overview Section
           _buildEarningsSection(context),
           const SizedBox(height: 24),
-          
+
+          // Driver KPIs Section
+          _buildKPISection(context),
+          const SizedBox(height: 24), 
+
           // Mission/Goals Section
           _buildMissionSection(context),
           const SizedBox(height: 24),
-          
-          // Quick Actions Section
-          _buildQuickActionsSection(context),
         ],
       ),
     );
@@ -160,9 +179,10 @@ class _HomeContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Good morning, Driver!',
+                  'Mabuhay, Driver!',
                   style: theme.textTheme.titleLarge?.copyWith(
                     color: Colors.white,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -176,29 +196,126 @@ class _HomeContent extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.circle, size: 8, color: Colors.green),
-                const SizedBox(width: 6),
-                Text(
-                  'Online',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    _isOnline ? 'Online' : 'Offline',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
+                  const SizedBox(width: 8),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isOnline = !_isOnline;
+                      });
+                      _showStatusModal(context);
+                    },
+                    child: Container(
+                      width: 51,
+                      height: 31,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: _isOnline ? Colors.green : Colors.grey.shade400,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: AnimatedAlign(
+                        alignment: _isOnline ? Alignment.centerRight : Alignment.centerLeft,
+                        duration: const Duration(milliseconds: 200),
+                        child: Container(
+                          width: 27,
+                          height: 27,
+                          margin: const EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(14),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 2,
+                                offset: const Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Tap to toggle',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: Colors.white.withOpacity(0.7),
+                  fontSize: 10,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
+    );
+  }
+
+  void _showStatusModal(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              Icon(
+                _isOnline ? Icons.check_circle : Icons.cancel,
+                color: _isOnline ? Colors.green : Colors.red,
+                size: 24,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                _isOnline ? 'You\'re Online!' : 'You\'re Offline',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            _isOnline 
+              ? 'You are now available to receive trip requests. Stay alert and ready to serve customers!'
+              : 'You are now offline and will not receive trip requests. You can go online anytime to start receiving requests again.',
+            style: const TextStyle(fontSize: 14),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                'Got it!',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -209,7 +326,7 @@ class _HomeContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Today\'s Performance',
+          'Your Performance',
           style: theme.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
           ),
@@ -386,7 +503,7 @@ class _HomeContent extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '+₱180 from yesterday',
+                    '+P180 from yesterday',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: Colors.white.withOpacity(0.9),
                     ),
@@ -421,10 +538,10 @@ class _HomeContent extends StatelessWidget {
                 child: _buildEarningStat('Trips', '12', Colors.white),
               ),
               Expanded(
-                child: _buildEarningStat('Avg/Trip', '₱204', Colors.white),
+                child: _buildEarningStat('Avg/Trip', 'P204', Colors.white),
               ),
               Expanded(
-                child: _buildEarningStat('Tips', '₱180', Colors.white),
+                child: _buildEarningStat('Tips', 'P180', Colors.white),
               ),
             ],
           ),
@@ -559,50 +676,6 @@ class _HomeContent extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildQuickActionsSection(BuildContext context) {
-    final theme = Theme.of(context);
-    
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Quick Actions',
-          style: theme.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(
-              child: _buildActionButton(
-                context,
-                'Go Online',
-                Icons.play_circle,
-                Colors.green,
-                () {
-                  // Handle go online
-                },
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: _buildActionButton(
-                context,
-                'View History',
-                Icons.history,
-                Colors.blue,
-                () {
-                  // Handle view history
-                },
-              ),
-            ),
-          ],
         ),
       ],
     );

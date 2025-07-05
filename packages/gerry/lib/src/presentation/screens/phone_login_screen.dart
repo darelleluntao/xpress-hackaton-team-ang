@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:core/core.dart';
 // It's good practice to import your core package if it contains shared utilities/providers
 // import 'package:core/core.dart'; // Assuming you might need this later
@@ -74,34 +75,38 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // App Logo (reusing similar style from LoginScreen)
+                    // App Logo
                     Container(
-                      width: 100,
-                      height: 100,
+                      width: 120,
+                      height: 120,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        // color: AppTheme.gerryTheme.colorScheme.primary,
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withAlpha(26),
-                            blurRadius: 10,
+                            blurRadius: 15,
                             offset: const Offset(0, 5),
                           ),
                         ],
                       ),
-                      child: Icon(
-                        Icons.phone_android, // Changed icon
-                        size: 60,
-                        color: AppTheme.gerryTheme.colorScheme.primary,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: SvgPicture.asset(
+                          'packages/core/assets/icons/xpress_logo.svg',
+                          width: 80,
+                          height: 80,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 32),
                     // Welcome Text
                     Text(
-                      'Enter Your Phone Number',
+                      'Login using your phone number',
                       style: GoogleFonts.poppins(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
                         color: Colors.white,
                       ),
                       textAlign: TextAlign.center,
