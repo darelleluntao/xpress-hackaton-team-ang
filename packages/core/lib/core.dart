@@ -1,0 +1,28 @@
+library core;
+
+export 'src/error/failures.dart';
+export 'src/error/exceptions.dart';
+export 'src/network/network_info.dart';
+export 'src/utils/input_converter.dart';
+export 'src/network/dio_client.dart';
+export 'src/network/network_exception.dart' hide NetworkException;
+export 'src/network/models/api_response.dart';
+export 'src/network/models/user.dart';
+export 'src/network/repositories/base_repository.dart';
+export 'src/network/repositories/user_repository.dart';
+export 'src/network/interceptors/auth_interceptor.dart';
+export 'src/state/base_state.dart';
+export 'src/state/providers/user_provider.dart';
+export 'src/di/injection_container.dart';
+export 'src/providers/app_initialization_provider.dart';
+export 'src/config/flavor_config.dart';
+export 'src/services/device_info_service.dart';
+export 'src/services/supabase_service.dart';
+export 'src/services/api_server.dart';
+export 'src/config/supabase_config.dart';
+export 'src/presentation/theme/app_theme.dart';
+export 'src/presentation/theme/design_tokens.dart';
+export 'src/presentation/widgets/flexible_app_bar.dart';
+export 'src/presentation/widgets/flexible_bottom_nav_bar.dart';
+export 'src/presentation/widgets/app_scaffold.dart';
+export 'src/presentation/widgets/widgets.dart';

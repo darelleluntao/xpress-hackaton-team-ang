@@ -1,0 +1,105 @@
+name: tengu
+
+packages:
+  - packages/**
+
+command:
+  bootstrap:
+    usePubspecOverrides: true
+
+scripts:
+  analyze:
+    run: melos exec -- "flutter analyze"
+    description: Run Flutter analyze on all packages
+
+  format:
+    run: melos exec -- "dart format ."
+    description: Format all Dart files
+
+  test:
+    run: melos exec -- "flutter test"
+    description: Run tests on all packages
+
+  clean:
+    run: melos exec -- "flutter clean"
+    description: Clean all packages
+
+  pub-get:
+    description: Get dependencies for all packages
+    run: melos exec -c 1 "flutter pub get"
+    select-package:
+      depends-on: "**"
+
+  build-runner:
+    description: Run build_runner for all packages
+    run: melos exec -c 1 "flutter pub run build_runner build --delete-conflicting-outputs"
+    select-package:
+      depends-on: "**"
+
+  setup:
+    run: melos run pub-get && melos run build-runner
+    description: Run pub get and build_runner on all packages
+
+  update:
+    run: melos exec -- "flutter pub upgrade"
+    description: Update dependencies for all packages
+
+  ned:run:
+    run: melos exec --scope="ned" -- "flutter run"
+    description: Run Ned app
+
+  gerry:run:
+    run: melos exec --scope="gerry" -- "flutter run"
+    description: Run Gerry app
+
+  run-ned-dev:
+    description: Run Ned app in development mode
+    run: cd packages/ned && flutter run --flavor dev -t lib/main_dev.dart
+    select-package:
+      path: "packages/ned"
+
+  run-ned-staging:
+    description: Run Ned app in staging mode
+    run: cd packages/ned && flutter run --flavor staging -t lib/main_staging.dart
+    select-package:
+      path: "packages/ned"
+
+  run-gerry-dev:
+    description: Run Gerry app in development mode
+    run: cd packages/gerry && flutter run --flavor dev -t lib/main_dev.dart
+    select-package:
+      path: "packages/gerry"
+
+  run-gerry-staging:
+    description: Run Gerry app in staging mode
+    run: cd packages/gerry && flutter run --flavor staging -t lib/main_staging.dart
+    select-package:
+      path: "packages/gerry"
+
+  run-ned-dev-ios:
+    description: Run Ned app in development mode on iOS
+    run: cd packages/ned && flutter run --flavor dev -t lib/main_dev.dart --no-codesign
+    select-package:
+      path: "packages/ned"
+
+  run-ned-staging-ios:
+    description: Run Ned app in staging mode on iOS
+    run: cd packages/ned && flutter run --flavor staging -t lib/main_staging.dart --no-codesign
+    select-package:
+      path: "packages/ned"
+
+  run-gerry-dev-ios:
+    description: Run Gerry app in development mode on iOS
+    run: cd packages/gerry && flutter run --flavor dev -t lib/main_dev.dart --no-codesign
+    select-package:
+      path: "packages/gerry"
+
+  run-gerry-staging-ios:
+    description: Run Gerry app in staging mode on iOS
+    run: cd packages/gerry && flutter run --flavor staging -t lib/main_staging.dart --no-codesign
+    select-package:
+      path: "packages/gerry"
+
+ignore:
+  - "**/*.g.dart"
+  - "**/*.freezed.dart"

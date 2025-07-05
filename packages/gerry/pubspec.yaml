@@ -1,0 +1,56 @@
+name: gerry
+description: Gerry app for Tengu.
+publish_to: "none"
+version: 0.0.1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  core:
+    path: ../core
+  flutter_riverpod: ^2.5.1
+  google_fonts: ^6.1.0
+  google_maps_flutter: ^2.6.0
+  geolocator: ^11.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+  build_runner: ^2.4.8
+  freezed: ^2.4.6
+  json_serializable: ^6.7.1
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700
+
+# Flavor configurations
+flavors:
+  dev:
+    app_id: com.tengu.gerry.dev
+    app_name: Gerry Dev
+    api_base_url: https://api.dev.gerry.com
+  staging:
+    app_id: com.tengu.gerry.staging
+    app_name: Gerry Staging
+    api_base_url: https://api.staging.gerry.com
+  prod:
+    app_id: com.tengu.gerry
+    app_name: Gerry
+    api_base_url: https://api.gerry.com

@@ -1,0 +1,47 @@
+name: ned
+description: Ned app for Tengu.
+publish_to: "none"
+version: 0.0.1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  core:
+    path: ../core
+  flutter_riverpod: ^2.5.1
+  google_fonts: ^6.1.0
+  flutter_svg: ^2.0.9
+  get: ^4.6.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+  build_runner: ^2.4.8
+  freezed: ^2.4.6
+  json_serializable: ^6.7.1
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+
+# Flavor configurations
+flavors:
+  dev:
+    app_id: com.tengu.ned.dev
+    app_name: Ned Dev
+    api_base_url: https://api.dev.ned.com
+  staging:
+    app_id: com.tengu.ned.staging
+    app_name: Ned Staging
+    api_base_url: https://api.staging.ned.com
+  prod:
+    app_id: com.tengu.ned
+    app_name: Ned
+    api_base_url: https://api.ned.com
